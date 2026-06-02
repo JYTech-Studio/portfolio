@@ -1,4 +1,6 @@
 export const site = {
+  brand: "JYTech",
+  // 主理人本人（顯示在 About）
   name: "王經元",
   title: "網站開發 · 系統客製",
   tagline: "用程式碼把想法做成可上線的產品。",

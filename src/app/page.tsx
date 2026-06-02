@@ -16,8 +16,8 @@ export default function Home() {
           {site.tagline}
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-          我是 {site.name},專注於用 Next.js / React
-          打造好用、好維護、能上線賺錢的網站與系統。歡迎看看我的作品,或直接聊聊你的專案。
+          {site.brand} 專注於用 Next.js / React
+          打造好用、好維護、能上線賺錢的網站與系統。歡迎看看作品,或直接聊聊你的專案。
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link

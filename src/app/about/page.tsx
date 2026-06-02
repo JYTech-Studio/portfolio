@@ -12,9 +12,9 @@ export default function AboutPage() {
 
       <div className="prose prose-neutral mt-8 max-w-none dark:prose-invert prose-a:text-accent">
         <p>
-          我是 {site.name},專注於{site.title}。我喜歡把模糊的需求,一步步拆解成
-          清楚、可維護、能真正上線運作的產品。從前端介面、後端 API
-          到資料庫設計,我習慣對整條鏈路負責。
+          {site.brand} 是我的接案品牌,專注於{site.title};主理人是我——{site.name}。
+          我喜歡把模糊的需求,一步步拆解成清楚、可維護、能真正上線運作的產品。
+          從前端介面、後端 API 到資料庫設計,我習慣對整條鏈路負責。
         </p>
         <p>
           相信細節決定品質——表單驗證、權限、計價邏輯、RWD
