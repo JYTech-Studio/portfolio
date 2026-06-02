@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><defs><linearGradient id="chip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A0C0"/><stop offset="1" stop-color="#D85A86"/></linearGradient></defs><g transform="translate(0,0)">
+    
+    <rect width="64" height="64" rx="15.36" fill="url(#chip)"/>
+    <circle cx="14.08" cy="12.8" r="2.24" fill="#fff" opacity="0.9"/>
+    <circle cx="21.12" cy="12.8" r="2.24" fill="#fff" opacity="0.9"/>
+    <circle cx="28.16" cy="12.8" r="2.24" fill="#fff" opacity="0.9"/>
+    <path d="M7.68,20.48 H56.32" stroke="#fff" stroke-width="1.92" opacity="0.55"/>
+    <text x="27.52" y="47.36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="25.6" font-weight="800" fill="#fff">JY</text>
+    <rect x="42.24" y="40.32" width="9.6" height="4.48" fill="#fff"/>
+  </g></svg>

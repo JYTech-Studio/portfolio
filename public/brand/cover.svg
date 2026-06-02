@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="878" viewBox="0 0 1080 878"><defs><linearGradient id="chip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A0C0"/><stop offset="1" stop-color="#D85A86"/></linearGradient><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9F1"/><stop offset="1" stop-color="#F3A6C4"/></linearGradient></defs>
+  <rect width="1080" height="878" fill="url(#bg)"/>
+  <g transform="translate(435,195)">
+    <rect x="-12.6" y="-12.6" width="235.2" height="235.2" rx="63" fill="#FFFFFF"/>
+    <rect width="210" height="210" rx="50.4" fill="url(#chip)"/>
+    <circle cx="46.2" cy="42" r="7.3500000000000005" fill="#fff" opacity="0.9"/>
+    <circle cx="69.3" cy="42" r="7.3500000000000005" fill="#fff" opacity="0.9"/>
+    <circle cx="92.4" cy="42" r="7.3500000000000005" fill="#fff" opacity="0.9"/>
+    <path d="M25.2,67.2 H184.8" stroke="#fff" stroke-width="6.3" opacity="0.55"/>
+    <text x="90.3" y="155.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="84" font-weight="800" fill="#fff">JY</text>
+    <rect x="138.6" y="132.3" width="31.5" height="14.700000000000001" fill="#fff"/>
+  </g>
+  <text x="540" y="540" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="120" font-weight="800" fill="#4A2C3A">JYTech</text>
+  <text x="540" y="600" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="36" font-weight="600" letter-spacing="3" fill="#B0506F">Web Design &amp; Development</text>
+</svg>
