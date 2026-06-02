@@ -8,6 +8,16 @@ export function SiteFooter() {
           © {new Date().getFullYear()} {site.brand}
         </p>
         <div className="flex items-center gap-4">
+          {site.socials.github && (
+            <a
+              href={site.socials.github}
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-foreground"
+            >
+              GitHub
+            </a>
+          )}
           {site.socials.line && (
             <a
               href={site.socials.line}

@@ -17,7 +17,7 @@ export default function ProjectsPage() {
           每個案例都記錄了問題、做法與成果。點進去看細節。
         </p>
       </header>
-      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+      <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}

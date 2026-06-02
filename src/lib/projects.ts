@@ -15,6 +15,8 @@ export type ProjectMeta = {
   demoUrl?: string;
   repoUrl?: string;
   featured?: boolean;
+  // 案例成果 / 模組亮點（顯示在精選卡片上）
+  highlights?: string[];
 };
 
 export type Project = ProjectMeta & { content: string };

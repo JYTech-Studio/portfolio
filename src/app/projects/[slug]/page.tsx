@@ -104,7 +104,7 @@ export default async function ProjectPage({
         <img
           src={project.cover}
           alt={project.title}
-          className="mt-10 w-full rounded-2xl border border-border"
+          className="mt-10 w-full rounded-lg border border-border"
         />
       )}
 

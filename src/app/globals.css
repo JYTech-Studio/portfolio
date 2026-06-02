@@ -2,19 +2,25 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #fbfaf8;
-  --foreground: #1a1a1a;
-  --muted: #6b6b6b;
-  --accent: #c2410c;
-  --border: #e7e3dd;
+  --background: #ffffff;
+  --surface: #f7f7f8;
+  --foreground: #18181b;
+  --muted: #6b7280;
+  --accent: #d6336c;
+  --accent-soft: #fdeef4;
+  --success: #16a34a;
+  --border: #e6e6e9;
   --card: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
   --color-border: var(--border);
   --color-card: var(--card);
   --font-sans: var(--font-geist-sans);
@@ -23,13 +29,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0e0e10;
+    --background: #0a0a0b;
+    --surface: #141416;
     --foreground: #ededed;
-    --muted: #9a9a9a;
-    --accent: #fb923c;
-    --border: #26262a;
+    --muted: #9a9aa3;
+    --accent: #f472b6;
+    --accent-soft: #2a1822;
+    --success: #34d399;
+    --border: #26262b;
     --card: #161618;
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -37,4 +50,25 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Anchored sections clear the sticky header */
+:target {
+  scroll-margin-top: 6rem;
+}
+
+/* Consistent, on-brand keyboard focus (replaces the default browser outline) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Subtle dot-grid backdrop used behind the hero / panels */
+.bg-dotgrid {
+  background-image: radial-gradient(
+    var(--border) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
 }
