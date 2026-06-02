@@ -7,6 +7,14 @@ export function ProjectCard({ project }: { project: Project }) {
       href={`/projects/${project.slug}`}
       className="group block rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lg"
     >
+      {project.cover && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.cover}
+          alt=""
+          className="mb-5 aspect-video w-full rounded-lg border border-border object-cover"
+        />
+      )}
       <div className="flex items-baseline justify-between gap-4">
         <h3 className="text-lg font-semibold tracking-tight group-hover:text-accent">
           {project.title}

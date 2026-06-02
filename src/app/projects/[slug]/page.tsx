@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getProject, getProjectSlugs } from "@/lib/projects";
+import { mdxComponents } from "@/components/mdx";
 
 export function generateStaticParams() {
   return getProjectSlugs().map((slug) => ({ slug }));
@@ -98,8 +99,17 @@ export default async function ProjectPage({
         )}
       </header>
 
+      {project.cover && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.cover}
+          alt={project.title}
+          className="mt-10 w-full rounded-2xl border border-border"
+        />
+      )}
+
       <div className="prose prose-neutral mt-10 max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:text-accent">
-        <MDXRemote source={project.content} />
+        <MDXRemote source={project.content} components={mdxComponents} />
       </div>
     </article>
   );
