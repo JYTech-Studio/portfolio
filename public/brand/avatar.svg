@@ -1,15 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640"><defs><linearGradient id="chip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A0C0"/><stop offset="1" stop-color="#D85A86"/></linearGradient><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9F1"/><stop offset="1" stop-color="#F3A6C4"/></linearGradient></defs>
-  <rect width="640" height="640" fill="url(#bg)"/>
-  <g transform="translate(205,120)">
-    <rect x="-13.799999999999999" y="-13.799999999999999" width="257.6" height="257.6" rx="69" fill="#FFFFFF"/>
-    <rect width="230" height="230" rx="55.199999999999996" fill="url(#chip)"/>
-    <circle cx="50.6" cy="46" r="8.05" fill="#fff" opacity="0.9"/>
-    <circle cx="75.9" cy="46" r="8.05" fill="#fff" opacity="0.9"/>
-    <circle cx="101.2" cy="46" r="8.05" fill="#fff" opacity="0.9"/>
-    <path d="M27.599999999999998,73.60000000000001 H202.4" stroke="#fff" stroke-width="6.8999999999999995" opacity="0.55"/>
-    <text x="98.89999999999999" y="170.2" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="92" font-weight="800" fill="#fff">JY</text>
-    <rect x="151.8" y="144.9" width="34.5" height="16.1" fill="#fff"/>
-  </g>
-  <text x="320" y="470" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="104" font-weight="800" fill="#4A2C3A">JYTech</text>
-  <text x="320" y="516" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="10" fill="#C25C82">WEB DEV</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1280" viewBox="0 0 1000 1000"><defs><linearGradient id="chip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2A0C0"/><stop offset="1" stop-color="#D85A86"/></linearGradient></defs><rect width="1000" height="1000" rx="180" fill="url(#chip)"/>
+    <circle cx="240" cy="210" r="40" fill="#fff" opacity="0.9"/>
+    <circle cx="360" cy="210" r="40" fill="#fff" opacity="0.9"/>
+    <circle cx="480" cy="210" r="40" fill="#fff" opacity="0.9"/>
+    <path d="M140,340 H860" stroke="#fff" stroke-width="35" opacity="0.55"/>
+    <text x="450" y="750" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="420" font-weight="800" fill="#fff">JY</text>
+    <rect x="680" y="640" width="160" height="75" fill="#fff"/></svg>
