@@ -10,6 +10,7 @@ export const site = {
   url: "https://example.com",
   socials: {
     github: "https://github.com/JYTech-Studio",
+    line: "https://lin.ee/Np2Yxwk",
   },
   skills: [
     "TypeScript",

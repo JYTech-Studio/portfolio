@@ -7,12 +7,24 @@ export function SiteFooter() {
         <p>
           © {new Date().getFullYear()} {site.brand}
         </p>
-        <a
-          href={`mailto:${site.email}`}
-          className="transition-colors hover:text-foreground"
-        >
-          {site.email}
-        </a>
+        <div className="flex items-center gap-4">
+          {site.socials.line && (
+            <a
+              href={site.socials.line}
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-foreground"
+            >
+              LINE
+            </a>
+          )}
+          <a
+            href={`mailto:${site.email}`}
+            className="transition-colors hover:text-foreground"
+          >
+            {site.email}
+          </a>
+        </div>
       </div>
     </footer>
   );

@@ -60,14 +60,26 @@ export default function Home() {
       >
         <h2 className="text-2xl font-bold tracking-tight">有專案想做?</h2>
         <p className="mx-auto mt-3 max-w-md text-muted">
-          不論是全新網站、既有系統優化,或單純想討論技術選型,都歡迎來信。
+          不論是全新網站、既有系統優化,或單純想討論技術選型,都歡迎聊聊。
         </p>
-        <a
-          href={`mailto:${site.email}`}
-          className="mt-6 inline-block rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
-        >
-          寄信給我
-        </a>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          {site.socials.line && (
+            <a
+              href={site.socials.line}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-[#06C755] px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            >
+              加 LINE 諮詢
+            </a>
+          )}
+          <a
+            href={`mailto:${site.email}`}
+            className="inline-block rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+          >
+            寄信給我
+          </a>
+        </div>
       </section>
     </div>
   );
