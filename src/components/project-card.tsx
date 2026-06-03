@@ -24,6 +24,14 @@ export function FeaturedProjectCard({ project }: { project: Project }) {
       href={`/projects/${project.slug}`}
       className="group block overflow-hidden rounded-lg border border-border bg-card transition-all duration-200 hover:border-accent/40 hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.18)]"
     >
+      {project.cover && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.cover}
+          alt=""
+          className="aspect-[16/9] w-full border-b border-border object-cover object-top"
+        />
+      )}
       <div className="grid grid-cols-1 gap-px bg-border lg:grid-cols-5">
         {/* 內容 */}
         <div className="bg-card p-6 sm:p-8 lg:col-span-3">

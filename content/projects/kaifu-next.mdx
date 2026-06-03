@@ -13,7 +13,8 @@ stack:
   - PostgreSQL
   - Render
 featured: true
-demoUrl: ""
+cover: /projects/kaifu-next/cover.jpg
+demoUrl: https://kaifu-new-system.onrender.com
 repoUrl: ""
 highlights:
   - 9 大後台模組：報名、財務、CRM、報表、權限
@@ -33,10 +34,10 @@ highlights:
 這不是一個 landing page，而是一套真正在營運的商業系統：
 
 - **前台**：首頁、行程詳情、報名人數選擇、報名表單、完成頁、客製化需求等完整流程
-- **後台**:9 個主要管理模組(Dashboard、行程、報名、財務、報表、CRM、帳號、系統設定、登入)
-- **API**:65 個 route file、80 個 HTTP handler
-- **資料庫**:14 張資料表 + migrations(Supabase PostgreSQL)
-- **維運**:24 個月維護合約，持續迭代至 v2.0.5
+- **後台**：9 個主要管理模組(Dashboard、行程、報名、財務、報表、CRM、帳號、系統設定、登入)
+- **API**：65 個 route file、80 個 HTTP handler
+- **資料庫**：14 張資料表 + migrations(Supabase PostgreSQL)
+- **維運**：24 個月維護合約，持續迭代至 v2.0.5
 
 ## 核心功能
 
@@ -46,6 +47,8 @@ highlights:
 - 國籍採**搜尋式下拉**，支援中文名、英文名、國家代碼搜尋，顯示統一為「國旗 + 英文名 + 中文名 + 國家代碼」
 - 報名確認 Email(含訂金、匯款資訊、旅行社 LINE 區塊)與報名完成頁
 - 自動建立 / 更新 CRM 客戶資料
+
+![前台行程列表：依月份與團型（國外／國內／大陸／客製化）篩選，每張卡片顯示出發/回程日期、天數與即時起價。](/projects/kaifu-next/trips.jpg)
 
 ### 後台 — 營運中樞
 - **行程管理**：完整 CRUD、圖片上傳、複製、排序、訂金設定、過期行程自動下架(pg_cron)
