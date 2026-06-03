@@ -48,15 +48,57 @@ highlights:
 - 報名確認 Email(含訂金、匯款資訊、旅行社 LINE 區塊)與報名完成頁
 - 自動建立 / 更新 CRM 客戶資料
 
-![前台行程列表：依月份與團型（國外／國內／大陸／客製化）篩選，每張卡片顯示出發/回程日期、天數與即時起價。](/projects/kaifu-next/trips.jpg)
-
 ### 後台 — 營運中樞
 - **行程管理**：完整 CRUD、圖片上傳、複製、排序、訂金設定、過期行程自動下架(pg_cron)
 - **報名管理**：全站查單、後台手動新增報名(寬版工作流 Modal + 草稿暫存)、Excel 匯出、補發確認信
 - **財務管理**：收款 / 支出 / 供應商費用、行程損益分析、月結報告、付款狀態自動連動
 - **CRM**：客戶資料自動同步、標籤管理、依標籤批次群發 Email
 - **報表中心**：近 12 個月銷售趨勢、行程排行、付款分佈、回購率分析(Chart.js)
-- **帳號與權限**:Supabase Auth + 角色管理(Admin / SuperAdmin)，含完整守門邏輯
+- **帳號與權限**：Supabase Auth + 角色管理(Admin / SuperAdmin)，含完整守門邏輯
+
+## 前台實際畫面
+
+以下皆為實際上線的前台畫面，呈現從行程瀏覽到完成報名的完整流程。
+
+![行程列表：依月份與團型（國外／國內／大陸／客製化）篩選，每張卡片顯示出發/回程日期、天數與即時起價。](/projects/kaifu-next/trips.jpg)
+
+![行程詳情頁：出發/回程日期、旅遊天數、成團人數、即時起價與訂金、參考航班；右側資訊卡固定顯示報名入口與剩餘名額。](/projects/kaifu-next/trip-detail.jpg)
+
+<Gallery>
+
+![行程特色分頁：以分頁切換完整呈現行程亮點與安排。](/projects/kaifu-next/trip-highlights.jpg)
+
+![每日行程分頁：以 DAY 1 / DAY 2… 時間軸條列每日景點，內容由後台行程管理帶入。](/projects/kaifu-next/trip-itinerary.jpg)
+
+</Gallery>
+
+接著是線上報名流程：
+
+![報名第一步——選擇人數與計價：依「大人／小孩佔床／小孩不佔床」分別計價，右側費用明細與應付訂金即時連動（小孩不佔床自動 −NT$1,000）。](/projects/kaifu-next/booking-pax-pricing.jpg)
+
+<Gallery>
+
+![報名第二步——旅客資料：中文姓名、性別、出生日期、國籍、證件、手機、Email 等欄位，含即時驗證（如身分證檢核碼）。](/projects/kaifu-next/booking-traveler.jpg)
+
+![主要報名人資訊：可勾選「我也是旅客之一」自動帶入旅客 1 資料，並作為合約簽署對象。](/projects/kaifu-next/booking-registrant.jpg)
+
+</Gallery>
+
+<Gallery>
+
+![搜尋式國籍下拉：可用中文名、英文名或國家代碼搜尋，顯示統一為「國旗 + 英文名 + 中文名 + 代碼」，常用國家／地區置頂。](/projects/kaifu-next/nationality-select.jpg)
+
+![緊急聯絡人與特殊需求：含「緊急聯絡人不得為同行旅客」驗證、特殊需求備註與個資保護聲明同意。](/projects/kaifu-next/booking-emergency.jpg)
+
+</Gallery>
+
+<Gallery>
+
+![報名成功（上）：頂部步驟指示器、系統產生的報名編號（DB function 原子產生，避免重號）、應付金額與訂金。](/projects/kaifu-next/booking-success-1.jpg)
+
+![報名成功（下）：匯款銀行資訊（帳號已遮蔽）、加入 LINE 聯絡旅行社與 3 天內完成匯款提醒。](/projects/kaifu-next/booking-success-2.jpg)
+
+</Gallery>
 
 ## 技術架構
 
