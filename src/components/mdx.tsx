@@ -1,25 +1,5 @@
-import type { ImgHTMLAttributes, ReactNode } from "react";
-
-/** Markdown 圖片 ![說明](/path) 會渲染成帶說明文字的 figure */
-function MdxImage({ src, alt }: ImgHTMLAttributes<HTMLImageElement>) {
-  if (typeof src !== "string") return null;
-  return (
-    <figure className="my-8">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt ?? ""}
-        loading="lazy"
-        className="w-full rounded-xl border border-border"
-      />
-      {alt && (
-        <figcaption className="mt-2 text-center text-sm text-muted">
-          {alt}
-        </figcaption>
-      )}
-    </figure>
-  );
-}
+import type { ReactNode } from "react";
+import { MdxImage } from "@/components/mdx-image";
 
 /** 多張截圖並排：<Gallery> 裡放數張 ![](...) 即可 */
 function Gallery({ children }: { children: ReactNode }) {

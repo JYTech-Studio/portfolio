@@ -69,6 +69,26 @@ export function IconCheck({ className }: IconProps) {
   );
 }
 
+export function IconZoomIn({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m21 21-4.3-4.3" />
+      <path d="M11 8v6" />
+      <path d="M8 11h6" />
+    </svg>
+  );
+}
+
+export function IconClose({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  );
+}
+
 export function IconMail({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
