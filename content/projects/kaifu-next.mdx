@@ -100,6 +100,46 @@ highlights:
 
 </Gallery>
 
+## 後台實際畫面
+
+後台是整套系統的營運中樞，涵蓋行程、訂單、報名、財務與權限。以下皆為實際上線畫面（資料均為測試資料，證件影本為官方樣本卡）。
+
+![後台登入：獨立的 Admin Portal 入口，採 Supabase Auth 驗證。](/projects/kaifu-next/admin-login.jpg)
+
+![後台儀表板：營運概況（行程數、報名數、待處理、累計營收）、今日摘要，以及九大模組的快捷入口。](/projects/kaifu-next/admin-dashboard.jpg)
+
+![行程管理：所有行程一覽，可依上架狀態與種類篩選，支援新增、編輯、複製、排序與上下架。](/projects/kaifu-next/admin-trips.jpg)
+
+<Gallery>
+
+![新增行程（基本資料）：名稱、價格與訂金、出發地／目的地、日期、種團、梯次、成團與人數上限。](/projects/kaifu-next/admin-trip-new-1.jpg)
+
+![新增行程（航班資訊）：去程／回程的航空公司、航班號、起降時間與機場。](/projects/kaifu-next/admin-trip-new-2.jpg)
+
+</Gallery>
+
+![複製現有行程：輸入關鍵字即時搜尋既有行程一鍵複製（日期需重新填入），快速建立同類團。](/projects/kaifu-next/admin-trip-duplicate.jpg)
+
+![訂單管理（出團列表）：以行程為單位顯示已報名／已收訂／成團人數，並可跨行程全站查單。](/projects/kaifu-next/admin-orders.jpg)
+
+![手動新增報名：後台直接建單，選行程與人數即時計價、自動產生報名摘要，支援草稿暫存。](/projects/kaifu-next/admin-order-new.jpg)
+
+![全站查單：可用訂單編號、姓名、電話、Email 或旅客姓名跨行程搜尋，並可包含已取消訂單。](/projects/kaifu-next/admin-order-search.jpg)
+
+![行程報名名單：單一行程的統計（報名／付款／應收）與完整名單，可一鍵匯出 Excel、補寄確認信。](/projects/kaifu-next/admin-roster.jpg)
+
+<Gallery>
+
+![訂單詳情（摘要與報名人）：人數組成、金額與付款狀態，以及主要報名人資料。](/projects/kaifu-next/admin-order-detail-1.jpg)
+
+![訂單詳情（聯絡與緊急聯絡人）：地址、緊急聯絡人、特殊需求，以及刪單／重寄確認信等操作。](/projects/kaifu-next/admin-order-detail-2.jpg)
+
+</Gallery>
+
+![旅客資料詳情：每位旅客的基本資料、餐食與證件影本（圖為官方樣本卡）。](/projects/kaifu-next/admin-traveler-detail.jpg)
+
+![訂單付款紀錄：訂金／尾款的方式、金額與備註；付款狀態由 DB trigger 依實收紀錄自動重算。](/projects/kaifu-next/admin-payments.jpg)
+
 ## 技術架構
 
 | 層面 | 技術 |
