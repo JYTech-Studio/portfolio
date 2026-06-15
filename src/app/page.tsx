@@ -8,9 +8,6 @@ import { site } from "@/lib/site";
 
 export default function Home() {
   const featured = getFeaturedProjects();
-  const [lead, ...restFeatured] = featured;
-  const secondary =
-    featured.length > 0 ? restFeatured : getAllProjects().slice(0, 4);
 
   return (
     <div className="mx-auto max-w-5xl px-6">
@@ -85,16 +82,19 @@ export default function Home() {
             全部作品 →
           </Link>
         </div>
-        {lead && (
-          <div className="mt-8">
-            <FeaturedProjectCard project={lead} />
-          </div>
-        )}
-        {secondary.length > 0 && (
-          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {secondary.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+        {featured.length > 0 ? (
+          <div className="mt-8 space-y-5">
+            {featured.map((project) => (
+              <FeaturedProjectCard key={project.slug} project={project} />
             ))}
+          </div>
+        ) : (
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {getAllProjects()
+              .slice(0, 4)
+              .map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
           </div>
         )}
       </section>
