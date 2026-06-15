@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-cover-tools",
+  "private": true,
+  "type": "module",
+  "description": "封面產圖工具（與 Next.js 網站獨立，網站不會引用到這裡）",
+  "scripts": {
+    "build": "node build-cover.mjs",
+    "shoot": "node shoot.mjs",
+    "cover": "node build-cover.mjs && node shoot.mjs"
+  },
+  "dependencies": {
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2",
+    "playwright-core": "^1.49.0"
+  }
+}
