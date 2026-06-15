@@ -1,0 +1,147 @@
+---
+title: 補習班行政管理系統
+slug: yems-php
+summary: 用 PHP / Laravel 打造的補習班後台系統——9 大管理模組 + 家長 Portal、13 張資料表、報名級點數帳戶、刷卡扣點與並發一致性控制，56 個 PHPUnit 測試全綠並部署上線。對應一套真實補習班使用的系統，示範用 Laravel 快速交付穩定、好維護的內部營運系統。
+role: 獨立全端開發（資料庫 / 後端 / 前端 / 測試 / 部署）
+year: "2026"
+stack:
+  - Laravel 13
+  - PHP 8.4
+  - Blade
+  - Tailwind CSS
+  - Alpine.js
+  - SQLite
+  - PostgreSQL
+  - Render
+featured: true
+cover: /projects/yems-php/cover.png
+demoUrl: https://yems-php.onrender.com
+repoUrl: https://github.com/JYTech-Studio/yems-php
+highlights:
+  - 9 大後台模組 + 家長 Portal、13 張資料表
+  - Service + DB transaction + lockForUpdate 保證點數一致性
+  - 56 個 PHPUnit Feature 測試全綠、已部署上線
+  - 適材適用：對內營運系統選用 Laravel
+---
+
+## 專案概述
+
+這是一套補習班的**內部營運系統**：從學生、課程、報名、點數帳戶、刷卡點名、聯絡簿、請假到財務報表，把櫃台與老師每天要做的事整合進同一個後台；另外提供一個給家長用手機看的 Portal。
+
+整套用 **PHP / Laravel** 開發，涵蓋資料庫設計、後端邏輯、Blade 前端、測試到部署上線。它對應一套**真實補習班使用**的系統，因此規格不是憑空想像，而是貼著實際營運需求設計。
+
+## 為什麼用 PHP / Laravel 做這類系統
+
+補習班後台是典型的**內部營運系統**——大量表單與資料維護（forms over data）、使用者是內部人員、重點是「穩定、好維護」而非華麗互動。這類系統 Laravel 是很務實的選擇：
+
+- **交付快**：框架自帶 ORM、認證、權限、migration、佇列、排程，把後台 80% 的共通需求標準化，不用每次重造輪子。
+- **架構單純**：伺服器端渲染（Blade），比「SPA + 獨立 API」少一層架構，維護的心智負擔低、出錯面更小。
+- **長期維運便宜**：PHP 人才多、部署成本低，未來接手與維護的成本低——這對中小型機構的內部系統特別重要。
+
+**適材適用**才是重點：對外、重 SEO 與互動的前台，我會用 Next.js（見[鎧福旅行社](/projects/kaifu-next)案例）；對內、重資料維護與長期維運的後台，PHP / Laravel 往往更划算。會依情境選工具，比執著於單一技術更重要。
+
+## 功能模組（9 大後台 + 家長 Portal）
+
+- **總覽 Dashboard** — 在學人數 / 開課數 / 今日出席 / 點數不足提醒
+- **帳號管理** — 後台 / 老師 / 家長 / 學生帳號，角色權限
+- **學生管理** — CRUD、姓名 / 電話 / 家長搜尋、學生詳情
+- **家長管理** — 家長 ⇄ 學生綁定、產生家長 Portal 存取連結
+- **課程管理** — 每堂扣點、固定課表（星期 / 時段 / 教室）
+- **點數帳戶** — 儲值 / 扣點 / 手動調整；含原價・實收・折扣，異動全紀錄
+- **刷卡點名工作檯** — 模擬 RFID 刷卡，自動判定進 / 退場、扣點、防重複刷、作廢退點
+- **聯絡簿 + 上課紀錄** — 每堂課紀錄 + 照片上傳
+- **請假管理** — 後台登記 / 家長線上請假、補課狀態
+- **報表** — 點數異動・請假紀錄匯出 CSV（UTF-8 BOM）/ Excel，財務統計
+- **家長 Portal** — 無登入、靠 token 驗身分、mobile-first；查課表 / 出席 / 聯絡簿 / 線上請假
+
+## 後台實際畫面
+
+以下皆為線上 Demo 的實際畫面（資料為測試假資料）。
+
+![總覽 Dashboard：在學人數、開課數、今日簽到與點數不足四項指標，下方即時列出點數偏低的學生，方便櫃台主動提醒續費。](/projects/yems-php/dashboard.png)
+
+![刷卡點名工作檯：輸入或點選卡片即模擬刷卡，系統自動判定簽到／簽退並扣點；右側為今日紀錄，管理員可逐筆作廢並退回扣點。](/projects/yems-php/attendance.png)
+
+<Gallery>
+
+![學生管理：學生列表，支援姓名／電話／家長搜尋與分頁。](/projects/yems-php/students.png)
+
+![課程管理：每堂扣點、固定課表（星期／時段／教室）與在學人數。](/projects/yems-php/courses.png)
+
+</Gallery>
+
+![點數帳戶：以「報名」為單位的點數列表，可儲值／扣點／手動調整；每筆異動都寫入稽核，餘額一致性由資料庫交易保證。](/projects/yems-php/credits.png)
+
+<Gallery>
+
+![聯絡簿與上課紀錄：每堂課的紀錄與照片上傳，可設定是否對家長公開。](/projects/yems-php/lesson-logs.png)
+
+![請假管理：後台登記與家長線上請假的紀錄，含補課狀態。](/projects/yems-php/leave.png)
+
+</Gallery>
+
+<Gallery>
+
+![報表中心：點數異動與請假紀錄可匯出 CSV／Excel，並提供區間財務統計。](/projects/yems-php/reports.png)
+
+![帳號管理：建立後台／老師／家長／學生帳號並設定角色權限（僅管理員可進）。](/projects/yems-php/accounts.png)
+
+</Gallery>
+
+## 家長 Portal（手機）
+
+家長不需帳密，憑後台產生的 token 連結即可在手機上查看孩子的狀況。
+
+<Gallery>
+
+![家長首頁：列出綁定的孩子與各自的剩餘點數，點數偏低會標示提醒。](/projects/yems-php/portal-home.png)
+
+![孩子詳情：以分頁切換總覽／出席／聯絡簿／線上請假，總覽顯示點數帳戶與固定課表。](/projects/yems-php/portal-student.png)
+
+</Gallery>
+
+## 技術架構
+
+| 層面 | 技術 |
+|------|------|
+| 框架 | Laravel 13（Blade、Eloquent ORM、route-model binding） |
+| 前端 | Tailwind CSS v4、Vite、Alpine.js |
+| 資料庫 | 本地 SQLite / 線上 PostgreSQL — migration 與資料庫無關 |
+| 主鍵 | UUID（`HasUuids`，分散式 / 雲端資料庫友善） |
+| 商業邏輯 | `CreditService` / `AttendanceService`，DB transaction + `lockForUpdate` |
+| 匯出 | PhpSpreadsheet（XLSX）+ 自寫 CSV（UTF-8 BOM，Excel 中文不亂碼） |
+| 測試 | PHPUnit Feature 測試 56 項全綠 |
+| 部署 | Docker（多階段建置）+ Render |
+
+## 幾個值得一提的技術細節
+
+### 1. 用交易與鎖保證點數一致性
+點數是這套系統的核心資產，最怕「併發超扣」或「扣了點卻沒記帳」。簽到扣點、儲值、手動調整都包在 **`DB::transaction` + `lockForUpdate`** 裡：鎖住該筆報名、檢查餘額、扣點、寫稽核，任一步失敗整筆 rollback。點數不足時簽到會被擋下且不留半套狀態。
+
+### 2. 作廢出席紀錄退點：對稱操作的並發安全
+刷卡簽到會扣 1 點；相對地，櫃台刷錯卡時要能**作廢紀錄並退回那 1 點**。這段同樣鎖住該筆紀錄、檢查是否已有對應簽退、刪紀錄、退點、寫稽核，全包在單一交易內——杜絕「已刪紀錄卻沒退點」的不一致。
+
+### 3. 家長 Portal：無登入但有存取控制
+家長不需要帳密，靠一串 256-bit 的 token 連結進入；token 可停用、可記錄最後存取時間。Portal 只查得到「自己綁定的孩子」，跨權限存取一律 403——用最低的使用門檻達到必要的資料隔離。
+
+### 4. 收斂框架預設：不開放公開註冊
+補習班帳號一律由後台「帳號管理」建立，不開放自助註冊——把 Laravel 預設的註冊路由整個移除，並補上測試斷言它確實停用。依情境收斂框架預設，也是熟練度的一部分。
+
+### 5. 測試與部署
+56 個 PHPUnit Feature 測試涵蓋點數一致性、扣點不可超額（rollback）、角色權限、Portal 存取控制與匯出格式。部署採 Docker 多階段建置（Node 編譯前端資產 → PHP + Apache 跑站），上線到 Render；過程中也處理了反向代理 HTTPS（`forceScheme`）與 PHP 版本約束等實際部署細節。
+
+## 資料庫設計可攜性
+
+商業邏輯刻意做在 application 層（Service + 交易），而非綁死某個資料庫的特性。搭配 UUID 主鍵與 DB-agnostic migration，**同一套程式碼在本地 SQLite 與線上 PostgreSQL 都能跑**——這是「懂原理、而不只是會用某個資料庫功能」的價值。
+
+## 一個誠實的補充
+
+這套系統對應我先前用 **Next.js** 開發、真實補習班使用的 YEMS。我刻意在一個不同的語言生態（PHP / Laravel）裡，**用同樣的工程標準把它重新交付一次**：一樣的資料模型、一樣的一致性要求、一樣有測試、一樣能上線。
+
+它順帶證明了一件事：**框架會換、語言會換，但資料怎麼設計、交易怎麼保證一致、權限怎麼守門、系統怎麼上線——這些是跨技術棧通用的工程能力。**
+
+## 成果
+
+- **9 大後台模組 + 家長 Portal**，涵蓋補習班日常營運的完整流程
+- **56 個 PHPUnit Feature 測試全綠**，核心的點數一致性與權限控制都有測試把關
+- **已部署上線**，可直接登入後台操作；原始碼公開於 GitHub，含 README 與部署文件
