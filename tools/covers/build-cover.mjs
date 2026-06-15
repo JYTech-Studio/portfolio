@@ -42,7 +42,7 @@ const C = {
   taiwanStroke: "#ffb066",
   arc: "rgba(255,248,236,0.85)",
   marker: "#fdf6e9",
-  rim: "rgba(255,228,170,0.55)", // 右上角的受光高光
+  rim: "rgba(255,231,176,0.8)", // 右上角的受光高光
 };
 
 // 航線：新加坡 → 台灣 → 東京（虛線），端點放標記
@@ -124,7 +124,7 @@ function taiwanLabel() {
     <line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${(lx - 6).toFixed(1)}" y2="${ly.toFixed(1)}" stroke="${C.taiwan}" stroke-width="2"/>
     <g transform="translate(${lx.toFixed(1)} ${(ly - 20).toFixed(1)})">
       <rect width="76" height="40" rx="8" fill="${C.taiwan}"/>
-      <text x="38" y="26" text-anchor="middle" font-size="22" font-weight="700" fill="#2a1404" font-family="'Noto Sans TC', sans-serif">台灣</text>
+      <text x="38" y="26" text-anchor="middle" font-size="22" font-weight="600" fill="#2a1404" font-family="-apple-system, 'PingFang TC', sans-serif">台灣</text>
     </g>`;
 }
 
@@ -190,33 +190,31 @@ const html = `<!doctype html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; box-sizing: border-box; }
   html, body { width: ${W}px; height: ${H}px; overflow: hidden; }
   body {
     position: relative;
-    font-family: 'Noto Sans TC', sans-serif;
+    display: flex; align-items: center;   /* 文字垂直置中（同原版 flex 版型）*/
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
     background: linear-gradient(135deg, ${C.bgTop}, ${C.bgBottom});
   }
   .globe { position: absolute; inset: 0; }
-  .copy { position: absolute; left: 96px; top: 150px; width: 620px; color: #efe7d8; }
+  .copy { position: relative; z-index: 1; margin-left: 92px; width: 580px; color: #f7f1e6; }
   .pill {
     display: inline-flex; align-items: center; gap: 10px;
-    border: 1px solid rgba(200,162,92,0.45); border-radius: 999px;
-    padding: 8px 18px; font-size: 20px; color: #d8b878; font-weight: 500;
+    border: 1px solid rgba(215,178,110,0.45); border-radius: 999px;
+    padding: 8px 18px; font-size: 20px; color: #d8b878; font-weight: 400;
   }
-  .pill::before { content:""; width: 9px; height: 9px; border-radius: 50%; background: ${C.taiwan}; }
-  h1 { font-weight: 900; font-size: 64px; line-height: 1.18; margin-top: 26px; letter-spacing: 1px; }
+  .pill::before { content:""; width: 8px; height: 8px; border-radius: 50%; background: ${C.taiwan}; }
+  h1 { font-family: "Songti TC", "Noto Serif TC", serif; font-weight: 400; font-size: 66px; line-height: 1.22; margin-top: 28px; letter-spacing: 1px; }
   h1 .gold { color: #e0b063; }
   h1 .cream { color: #f3ecdd; }
-  .sub { margin-top: 24px; font-size: 26px; line-height: 1.5; color: #cfc4ad; font-weight: 400; }
-  .badges { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; max-width: 540px; }
+  .sub { margin-top: 24px; font-size: 25px; line-height: 1.55; color: #d8cdb6; font-weight: 400; }
+  .badges { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; max-width: 580px; }
   .badge {
-    border: 1px solid rgba(200,162,92,0.4); border-radius: 12px;
-    padding: 10px 20px; font-size: 22px; color: #e7dcc4;
+    border: 1px solid rgba(200,162,92,0.4); border-radius: 10px;
+    padding: 10px 18px; font-size: 19px; color: #e7dcc4;
     background: rgba(255,255,255,0.03);
   }
 </style>
