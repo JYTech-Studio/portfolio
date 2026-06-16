@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body {
+    position: relative;
+    display: flex; align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+    background: linear-gradient(135deg, #10211d, #0a1512);
+  }
+
+  /* 背景：淡淡的向量點陣，增添 AI 氛圍 */
+  .dots { position: absolute; inset: 0; opacity: .5; }
+
+  .copy { position: relative; z-index: 1; margin-left: 92px; width: 710px; color: #eef6f3; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(94,234,212,.35); border-radius: 999px;
+    padding: 8px 18px; font-size: 20px; color: #5eead4; font-weight: 400;
+  }
+  .pill::before { content:""; width: 8px; height: 8px; border-radius: 50%; background: #2dd4bf; }
+  h1 { font-family: "Songti TC", "Noto Serif TC", serif; font-weight: 400; font-size: 56px; line-height: 1.24; margin-top: 28px; letter-spacing: 1px; white-space: nowrap; }
+  h1 .teal { color: #5eead4; }
+  h1 .cream { color: #f3ecf0; }
+  .sub { margin-top: 24px; font-size: 24px; line-height: 1.55; color: #bcccc6; font-weight: 400; }
+  .badges { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 13px; max-width: 540px; }
+  .badge {
+    border: 1px solid rgba(120,150,143,.4); border-radius: 999px;
+    padding: 10px 18px; font-size: 19px; color: #d3e6e0;
+  }
+
+  /* 右側：擬真問答視窗 */
+  .chat {
+    position: absolute; z-index: 1; right: 76px; top: 150px;
+    width: 640px; height: 600px;
+    background: #f6f7f9; border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.1);
+    box-shadow: 0 40px 90px -30px rgba(0,0,0,.6);
+    padding: 30px 30px; display: flex; flex-direction: column;
+  }
+  .chat .head {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 20px; font-weight: 600; color: #1f2430;
+    padding-bottom: 18px; border-bottom: 1px solid #e5e7eb;
+  }
+  .chat .head .dot { width: 9px; height: 9px; border-radius: 50%; background: #0d9488; }
+  .chat .head .muted { margin-left: auto; font-size: 15px; font-weight: 400; color: #9ca3af; }
+  .stream { flex: 1; display: flex; flex-direction: column; gap: 18px; padding-top: 26px; }
+  .msg { max-width: 84%; padding: 16px 20px; border-radius: 18px; font-size: 21px; line-height: 1.6; }
+  .me { align-self: flex-end; background: #0d9488; color: #fff; border-bottom-right-radius: 5px; }
+  .ai { align-self: flex-start; background: #fff; color: #1f2430; border: 1px solid #e8ebea; border-bottom-left-radius: 5px; }
+  .ai .src {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
+    background: #ecfdf5; color: #0f766e; border: 1px solid #99f6e4;
+    border-radius: 999px; padding: 5px 13px; font-size: 16px;
+  }
+  .bar {
+    margin-top: 18px; display: flex; align-items: center; gap: 10px;
+    background: #fff; border: 1px solid #e2e5e4; border-radius: 14px;
+    padding: 14px 18px; font-size: 18px; color: #9ca3af;
+  }
+  .bar .send { margin-left: auto; background: #0d9488; color: #fff; border-radius: 10px; padding: 8px 18px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+  <svg class="dots" width="1600" height="900">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#2dd4bf" stop-opacity=".9"/>
+        <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="980" cy="120" r="3" fill="#5eead4" opacity=".7"/>
+    <circle cx="1080" cy="80" r="2" fill="#5eead4" opacity=".5"/>
+    <circle cx="760" cy="700" r="3" fill="#5eead4" opacity=".6"/>
+    <circle cx="660" cy="780" r="2" fill="#5eead4" opacity=".45"/>
+    <circle cx="540" cy="640" r="2" fill="#5eead4" opacity=".4"/>
+    <circle cx="120" cy="760" r="3" fill="#5eead4" opacity=".4"/>
+    <circle cx="1520" cy="820" r="2" fill="#5eead4" opacity=".4"/>
+    <line x1="980" y1="120" x2="1080" y2="80" stroke="#2dd4bf" stroke-opacity=".25" stroke-width="1"/>
+    <line x1="760" y1="700" x2="660" y2="780" stroke="#2dd4bf" stroke-opacity=".22" stroke-width="1"/>
+    <line x1="660" y1="780" x2="540" y2="640" stroke="#2dd4bf" stroke-opacity=".18" stroke-width="1"/>
+    <circle cx="1360" cy="190" r="320" fill="url(#glow)" opacity=".10"/>
+  </svg>
+
+  <div class="copy">
+    <span class="pill">檢索增強生成 · RAG</span>
+    <h1><span class="teal">RAG 知識庫問答助手</span><br><span class="cream">AI 分身</span></h1>
+    <div class="sub">上傳文件 → 向量檢索 → 引用來源作答<br>只依文件回答、找不到就明說，絕不亂編</div>
+    <div class="badges"><span class="badge">Python</span><span class="badge">FastAPI</span><span class="badge">Gemini</span><span class="badge">fastembed</span><span class="badge">Docker</span></div>
+  </div>
+
+  <div class="chat">
+    <div class="head"><span class="dot"></span>跟虛擬的 WJY 聊聊<span class="muted">AI 分身</span></div>
+    <div class="stream">
+      <div class="msg me">他會 Python 嗎？做過哪些專案？</div>
+      <div class="msg ai">是的，他用 Python + FastAPI 打造了這個 RAG 系統；另外也獨立做過旅行社 ERP（Next.js）與補習班後台（Laravel）。
+        <span class="src">📎 WJY-技術履歷.md</span>
+      </div>
+    </div>
+    <div class="bar">輸入問題…<span class="send">送出</span></div>
+  </div>
+</body>
+</html>
