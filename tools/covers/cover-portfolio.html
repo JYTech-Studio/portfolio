@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body {
+    position: relative;
+    display: flex; align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+    background: linear-gradient(135deg, #21121b, #120a10);
+  }
+
+  /* 背景：淡淡的節點與光暈 */
+  .dots { position: absolute; inset: 0; opacity: .5; }
+
+  /* ---- 左側文案 ---- */
+  .copy { position: relative; z-index: 1; margin-left: 92px; width: 640px; color: #f6eef2; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(244,114,182,.35); border-radius: 999px;
+    padding: 8px 18px; font-size: 20px; color: #f9a8d4; font-weight: 400;
+  }
+  .pill::before { content:""; width: 8px; height: 8px; border-radius: 50%; background: #f472b6; }
+  h1 {
+    font-family: "Songti TC", "Noto Serif TC", serif; font-weight: 400;
+    font-size: 56px; line-height: 1.24; margin-top: 28px; letter-spacing: 1px; white-space: nowrap;
+  }
+  h1 .rose { color: #f9a8d4; }
+  h1 .cream { color: #f6eef2; }
+  .sub { margin-top: 24px; font-size: 24px; line-height: 1.55; color: #c9b8c2; font-weight: 400; }
+  .badges { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 13px; max-width: 560px; }
+  .badge {
+    border: 1px solid rgba(160,130,148,.4); border-radius: 999px;
+    padding: 10px 18px; font-size: 19px; color: #e4d5dd;
+  }
+
+  /* ---- 右側：擬真聊天視窗 ---- */
+  .chat {
+    position: absolute; z-index: 1; right: 76px; top: 104px;
+    width: 636px; height: 496px;
+    background: #f7f6f7; border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.1);
+    box-shadow: 0 40px 90px -30px rgba(0,0,0,.65);
+    padding: 26px 28px; display: flex; flex-direction: column;
+  }
+  .chat .head { display: flex; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid #e7e5e7; }
+  .chat .head .dot { width: 9px; height: 9px; border-radius: 50%; background: #16a34a; }
+  .chat .head .title { font-size: 20px; font-weight: 600; color: #1f1b1e; }
+  .chat .head .by { font-size: 14px; color: #9b9299; margin-top: 3px; }
+
+  /* 模型切換鈕：這張封面的主角 */
+  .toggle { margin-left: auto; display: flex; border: 1px solid #e0dcdf; border-radius: 999px; overflow: hidden; background: #fff; }
+  .toggle span { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 15px; color: #8b8289; }
+  .toggle span.on { background: #d6336c; color: #fff; font-weight: 600; }
+
+  .stream { flex: 1; display: flex; flex-direction: column; gap: 16px; padding-top: 22px; }
+  .msg { max-width: 86%; padding: 15px 19px; border-radius: 18px; font-size: 20px; line-height: 1.6; }
+  .me { align-self: flex-end; background: #d6336c; color: #fff; border-bottom-right-radius: 5px; }
+  .ai { align-self: flex-start; background: #fff; color: #211d20; border: 1px solid #eae7e9; border-bottom-left-radius: 5px; }
+  .bar {
+    margin-top: 16px; display: flex; align-items: center; gap: 10px;
+    background: #fff; border: 1px solid #e4e0e2; border-radius: 14px;
+    padding: 13px 18px; font-size: 18px; color: #a09aa0;
+  }
+  .bar .send { margin-left: auto; background: #d6336c; color: #fff; border-radius: 10px; padding: 8px 18px; font-size: 16px; font-weight: 600; }
+
+  /* ---- 疊在聊天視窗左下角的「花費帳本」卡 ---- */
+  .ledger {
+    position: absolute; z-index: 2; left: 726px; top: 566px;
+    width: 392px; padding: 22px 24px;
+    background: #1b1016; border: 1px solid rgba(244,114,182,.3);
+    border-radius: 18px; box-shadow: 0 30px 70px -25px rgba(0,0,0,.8);
+    color: #f6eef2;
+  }
+  .ledger .lbl { font-size: 16px; color: #b79dab; letter-spacing: .5px; }
+  .ledger .amt { margin-top: 8px; font-size: 34px; font-weight: 600; letter-spacing: .5px; }
+  .ledger .amt .of { font-size: 20px; font-weight: 400; color: #9c8593; }
+  .track { margin-top: 14px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.09); overflow: hidden; }
+  .track i { display: block; height: 100%; width: 31%; border-radius: 999px; background: linear-gradient(90deg, #d6336c, #f472b6); }
+  .ledger .note { margin-top: 13px; font-size: 15px; line-height: 1.5; color: #a8919e; }
+</style>
+</head>
+<body>
+  <svg class="dots" width="1600" height="900">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#f472b6" stop-opacity=".9"/>
+        <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="980" cy="96" r="3" fill="#f9a8d4" opacity=".7"/>
+    <circle cx="1086" cy="58" r="2" fill="#f9a8d4" opacity=".5"/>
+    <circle cx="742" cy="712" r="3" fill="#f9a8d4" opacity=".6"/>
+    <circle cx="642" cy="792" r="2" fill="#f9a8d4" opacity=".45"/>
+    <circle cx="522" cy="652" r="2" fill="#f9a8d4" opacity=".4"/>
+    <circle cx="118" cy="768" r="3" fill="#f9a8d4" opacity=".4"/>
+    <circle cx="1524" cy="828" r="2" fill="#f9a8d4" opacity=".4"/>
+    <line x1="980" y1="96" x2="1086" y2="58" stroke="#f472b6" stroke-opacity=".25" stroke-width="1"/>
+    <line x1="742" y1="712" x2="642" y2="792" stroke="#f472b6" stroke-opacity=".22" stroke-width="1"/>
+    <line x1="642" y1="792" x2="522" y2="652" stroke="#f472b6" stroke-opacity=".18" stroke-width="1"/>
+    <circle cx="1360" cy="180" r="320" fill="url(#glow)" opacity=".10"/>
+  </svg>
+
+  <div class="copy">
+    <span class="pill">作品集網站 · Next.js 16</span>
+    <h1><span class="cream">作品集網站</span><br><span class="rose">可切換模型的 AI 分身</span></h1>
+    <div class="sub">訪客自由切換 Gemini / Claude 作答<br>三層成本控管，把付費模型壓在每月 1 美金內</div>
+    <div class="badges">
+      <span class="badge">Next.js 16</span><span class="badge">TypeScript</span>
+      <span class="badge">Claude API</span><span class="badge">Gemini</span>
+      <span class="badge">Supabase</span><span class="badge">MDX</span>
+    </div>
+  </div>
+
+  <div class="chat">
+    <div class="head">
+      <span class="dot"></span>
+      <div>
+        <div class="title">跟我的 AI 分身聊聊</div>
+        <div class="by">由 Claude 驅動 · 依履歷回答</div>
+      </div>
+      <div class="toggle"><span>Gemini</span><span class="on">Claude</span></div>
+    </div>
+    <div class="stream">
+      <div class="msg me">他會 Python 嗎？做過哪些專案？</div>
+      <div class="msg ai">會。他用 Python + FastAPI 做過 RAG 微服務，另外獨立開發了旅行社 ERP（Next.js）與補習班後台（Laravel）。</div>
+    </div>
+    <div class="bar">輸入問題…<span class="send">送出</span></div>
+  </div>
+
+  <div class="ledger">
+    <div class="lbl">本期 Claude 花費</div>
+    <div class="amt">$0.31 <span class="of">/ $1.00</span></div>
+    <div class="track"><i></i></div>
+    <div class="note">超出預算自動改用 Gemini 回答<br>同一訪客每日上限 10 則</div>
+  </div>
+</body>
+</html>
