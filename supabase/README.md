@@ -16,9 +16,24 @@
 
 ## 目前的表
 
-| Migration | 表 | 用途 |
+| Migration | 物件 | 用途 |
 |---|---|---|
 | `0001_portfolio_chat_logs.sql` | `portfolio_chat_logs` | AI 分身聊聊的對話紀錄 |
+| `0002_chat_usage_budget.sql` | 同表 + `chat_claude_usage()` | Claude 的 token 用量 / 花費帳本、IP 雜湊與索引；一支 RPC 回傳「本期累計花費」與「這個 IP 近期次數」，給 API 判斷要不要繼續用 Claude |
+
+`0002` 之後 `portfolio_chat_logs` 多了 `model`、`input_tokens`、`output_tokens`、`cost_usd`、`ip_hash` 五個欄位。
+`ip_hash` 存的是**加鹽後的 SHA-256**（不是原始 IP），只用來做每日速率限制。
+
+想看目前花了多少：
+
+```sql
+select date_trunc('month', created_at) as 月份,
+       count(*) as 則數,
+       round(sum(cost_usd), 4) as 花費_usd
+from portfolio_chat_logs
+where provider = 'claude'
+group by 1 order by 1 desc;
+```
 
 ## 環境變數
 

@@ -15,25 +15,35 @@ export function AiChat() {
   const [busy, setBusy] = useState(false);
   const [providers, setProviders] = useState<string[]>([]);
   const [provider, setProvider] = useState<"gemini" | "claude">("gemini");
-  const [adminToken, setAdminToken] = useState(() =>
-    typeof window === "undefined" ? "" : localStorage.getItem("chatAdminToken") || "",
-  );
+  // 額度用完 / 今天問太多時，server 會回一句說明，前端據此鎖住 Claude 鈕
+  const [claudeBlocked, setClaudeBlocked] = useState<string | null>(null);
+  // 管理密鑰（只有我會用）：網址帶 ?chatKey=xxx 一次，之後存在 localStorage。
+  // 帶密鑰的請求不受預算 / 速率限制，一般訪客完全不需要知道它的存在。
+  const [adminToken] = useState(() => {
+    if (typeof window === "undefined") return "";
+    const fromUrl = new URLSearchParams(window.location.search).get("chatKey");
+    return fromUrl ?? localStorage.getItem("chatAdminToken") ?? "";
+  });
   const composing = useRef(false);
   const scroller = useRef<HTMLDivElement>(null);
 
-  // 帶上目前的管理密鑰去問供應商清單（有效 token 才會拿到 claude）。
+  // 問 server：有哪些模型可選、Claude 現在還能不能用（帶管理密鑰則不受限）。
   const loadProviders = useCallback((token: string) => {
     fetch("/api/chat", {
       headers: token ? { "x-chat-admin-token": token } : {},
     })
       .then((r) => r.json())
-      .then((d) => setProviders(d.providers || []))
+      .then((d) => {
+        setProviders(d.providers || []);
+        setClaudeBlocked(d.claudeBlocked ?? null);
+      })
       .catch(() => {});
   }, []);
 
   useEffect(() => {
+    if (adminToken) localStorage.setItem("chatAdminToken", adminToken);
     loadProviders(adminToken);
-    // 只在掛載時抓一次；解鎖管理密鑰後會另外手動重抓。
+    // 只在掛載時抓一次。
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,7 +51,7 @@ export function AiChat() {
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight });
   }, [messages, busy, open]);
 
-  const canSwitch = Boolean(adminToken) && providers.includes("claude");
+  const canSwitch = providers.includes("claude");
 
   async function send() {
     const q = input.trim();
@@ -63,6 +73,11 @@ export function AiChat() {
       const d = await r.json();
       const text = d.answer || d.error || "（沒有回應）";
       setMessages((m) => [...m, { role: "assistant", content: text }]);
+      // server 說這次超出額度 → 把 UI 切回 Gemini 並顯示原因
+      if (d.notice) {
+        setClaudeBlocked(d.notice);
+        setProvider("gemini");
+      }
     } catch {
       setMessages((m) => [
         ...m,
@@ -71,15 +86,6 @@ export function AiChat() {
     } finally {
       setBusy(false);
     }
-  }
-
-  function unlockAdmin() {
-    const t = window.prompt("輸入管理密鑰即可切換回答模型（一般訪客免填）", adminToken);
-    if (t === null) return;
-    localStorage.setItem("chatAdminToken", t);
-    setAdminToken(t);
-    // 用新 token 重新抓供應商清單：有效才會拿到 claude、解鎖切換 UI。
-    loadProviders(t);
   }
 
   return (
@@ -106,30 +112,26 @@ export function AiChat() {
                 {provider === "claude" ? "Claude" : "Gemini"} 驅動 · 依履歷回答
               </p>
             </div>
-            {canSwitch ? (
+            {canSwitch && (
               <div className="flex overflow-hidden rounded-full border border-border text-[11px]">
-                {(["gemini", "claude"] as const).map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => setProvider(p)}
-                    className={`flex items-center gap-1 px-2.5 py-1 ${
-                      provider === p ? "bg-accent text-white" : "text-muted"
-                    }`}
-                  >
-                    <ModelLogo provider={p} />
-                    {p === "gemini" ? "Gemini" : "Claude"}
-                  </button>
-                ))}
+                {(["gemini", "claude"] as const).map((p) => {
+                  const locked = p === "claude" && Boolean(claudeBlocked);
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => !locked && setProvider(p)}
+                      disabled={locked}
+                      title={locked ? claudeBlocked! : `用 ${p === "gemini" ? "Gemini" : "Claude"} 回答`}
+                      className={`flex items-center gap-1 px-2.5 py-1 ${
+                        provider === p ? "bg-accent text-white" : "text-muted"
+                      } ${locked ? "cursor-not-allowed opacity-40" : ""}`}
+                    >
+                      <ModelLogo provider={p} />
+                      {p === "gemini" ? "Gemini" : "Claude"}
+                    </button>
+                  );
+                })}
               </div>
-            ) : (
-              <button
-                onClick={unlockAdmin}
-                aria-label="管理：切換模型"
-                className="text-muted/60 transition-colors hover:text-muted"
-                title="切換回答模型（需管理密鑰）"
-              >
-                ⚙
-              </button>
             )}
           </div>
 
@@ -144,6 +146,11 @@ export function AiChat() {
 
           {/* 輸入列 */}
           <div className="border-t border-border p-3">
+            {canSwitch && claudeBlocked && (
+              <p className="mb-2 rounded-lg bg-surface px-2.5 py-1.5 text-[11px] leading-relaxed text-muted">
+                ⓘ {claudeBlocked}
+              </p>
+            )}
             <div className="flex gap-2">
               <input
                 value={input}

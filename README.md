@@ -22,8 +22,8 @@
 - **Next.js（App Router）+ TypeScript** — 網站框架
 - **Tailwind CSS v4** — 樣式
 - **MDX** — 用 Markdown + 元件寫案例內文（`next-mdx-remote` 渲染、`gray-matter` 讀 frontmatter）
-- **LLM（AI 分身）** — Gemini（訪客預設、免費）；可切換 Claude（`@anthropic-ai/sdk`，需管理密鑰）
-- **Supabase** — 記錄 AI 分身的對話（選用）
+- **LLM（AI 分身）** — Gemini（預設、免費）與 Claude（`@anthropic-ai/sdk`）；訪客可自由切換，Claude 有花費上限保護
+- **Supabase** — 記錄 AI 分身的對話 + Claude 花費帳本
 - **Vercel** — 部署（推上 GitHub 會自動上線）
 
 ## 怎麼跑起來
@@ -86,13 +86,29 @@ tools/covers/               封面產圖工具（見下方）
 **運作方式**
 
 - 履歷整段塞進 LLM 的 system prompt（履歷很短，不需要 RAG），找不到答案會誠實說「資料裡沒提到」並請對方 email
-- 回答的 LLM：訪客一律用 **Gemini**（免費）；輸入**管理密鑰**後可切換 **Claude**，避免訪客燒掉付費額度
+- 回答的 LLM：預設 **Gemini**（免費），訪客可以自己切換到 **Claude** 比較看看
 - 對話可選擇性寫進 **Supabase**（`portfolio_chat_logs` 表），這樣我能知道別人都問了什麼。沒設定就單純不記錄，不影響聊天
+
+**Claude 開放給訪客切換，怎麼不會燒錢？** 三層防護：
+
+| 層 | 做法 | 擋掉什麼 |
+|---|---|---|
+| 1. Anthropic Console | 另開一個 Workspace 設**每月支出上限 $1**，網站只用那把 key | 程式出 bug 也不可能超支（唯一的硬保證） |
+| 2. 預算帳本 | 每則 Claude 回答把 token 用量換算成美金寫進 `portfolio_chat_logs.cost_usd`；本期累計達 `CLAUDE_BUDGET_USD` 就自動改用 Gemini 並跟訪客說明 | 正常情況下根本碰不到第 1 層 |
+| 3. 速率限制 | 同一個 IP（存 SHA-256 雜湊，不留原始 IP）24 小時最多 `CLAUDE_DAILY_LIMIT_PER_IP` 則 Claude | 一個人一次把整期額度刷光 |
+
+再加上省錢細節：Claude 走最便宜的 **Haiku 4.5**（$1 / $5 每百萬 token）、輸出上限 800 token、只帶最近 8 則歷史，
+履歷 system prompt 開 **prompt caching**（5 分鐘內連續提問，輸入只算 1 成價錢）。
+以 Haiku 單價估算，一則約 **$0.003**，$1 大約可以回答 **300 則**（實際看提問長度）。
+
+管理密鑰（`CHAT_ADMIN_TOKEN`）不再是「解鎖 Claude」，而是「不受上限限制」——
+自己用網址帶一次 `?chatKey=<密鑰>` 開啟網站即可（存進 localStorage），訪客完全不需要。
 
 **相關檔案**
 
 - `src/lib/persona.ts` — AI 分身的人設 + 履歷（知識來源）
-- `src/app/api/chat/route.ts` — 後端 API（呼叫 LLM、管理密鑰把關、寫紀錄）
+- `src/app/api/chat/route.ts` — 後端 API（呼叫 LLM、預算把關、寫紀錄）
+- `src/lib/chat-budget.ts` — Claude 花費換算、預算與速率限制
 - `src/components/ai-chat.tsx` — 前端浮動聊天視窗
 - `supabase/` — 對話紀錄表的 migration（見 [`supabase/README.md`](supabase/README.md)）
 
@@ -103,12 +119,19 @@ tools/covers/               封面產圖工具（見下方）
 |---|---|---|
 | `GEMINI_API_KEY` | ✅ | 訪客用的免費模型（[AI Studio](https://aistudio.google.com/apikey) 申請） |
 | `GEMINI_MODEL` | | 預設 `gemini-2.5-flash-lite` |
-| `ANTHROPIC_API_KEY` | | 要能切 Claude 才需要 |
+| `ANTHROPIC_API_KEY` | | 要開放 Claude 才需要（建議用有月支出上限的 Workspace key） |
 | `CLAUDE_MODEL` | | 預設 `claude-haiku-4-5` |
-| `CHAT_ADMIN_TOKEN` | | 切換 Claude 的管理密鑰；沒設則沒人能切 |
-| `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | | 要記錄對話才需要（service_role 金鑰只能放 server，勿外洩） |
+| `CLAUDE_MAX_TOKENS` | | Claude 單則輸出上限，預設 800 |
+| `CLAUDE_BUDGET_USD` | | Claude 本期預算（美金），預設 `1`；達標後自動改用 Gemini |
+| `CLAUDE_BUDGET_WINDOW` | | `month`（預設，每月 1 號重置）或 `total` |
+| `CLAUDE_DAILY_LIMIT_PER_IP` | | 同一 IP 每日 Claude 上限，預設 `10`；`0` 為不限 |
+| `CHAT_IP_SALT` | | IP 雜湊用的鹽（沒設會沿用 service_role key） |
+| `CHAT_ADMIN_TOKEN` | | 我自己用：帶這組密鑰的請求不受預算 / 速率限制 |
+| `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | | 對話紀錄與**花費帳本**（service_role 金鑰只能放 server，勿外洩） |
 
-> 上線前記得到 Supabase 跑一次 `supabase/migrations/` 把 `portfolio_chat_logs` 表建起來。
+> 上線前記得到 Supabase 跑一次 `supabase/migrations/` 把表和 `chat_claude_usage` 函式建起來。
+> 沒接 Supabase 時，花費只能靠單一 serverless 實例的記憶體粗估（多實例會低估），
+> 這種情況請務必依賴 Console 的月支出上限。
 
 ## 封面產圖工具
 
